@@ -8,10 +8,10 @@ This module adds persistent data storage capabilities to the air quality system 
 ### SD Card Connections
 | Pin         | Connection       | Details                                  |
 |-------------|------------------|------------------------------------------|
-| CS          | GPIO D0          | Chip select (XIAO ESP32-S3 specific)     |
-| SCK         | GPIO 36          | SPI clock                                |
-| MOSI        | GPIO 35          | Master Out Slave In                      |
-| MISO        | GPIO 37          | Master In Slave Out                      |
+| CS          | GPIO1 (D0)       | Chip select (XIAO ESP32-S3 specific)     |
+| SCK/CLK     | GPIO7            | SPI clock                                |
+| MOSI        | GPIO9            | Master Out Slave In                      |
+| MISO        | GPIO9            | Master In Slave Out                      |
 | 3V3         | 3.3V             | Match card voltage requirements          |
 | GND         | GND              | Common ground                            |
 

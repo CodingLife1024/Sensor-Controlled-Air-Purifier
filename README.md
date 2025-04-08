@@ -108,7 +108,7 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 │   ├── firebase.ino
 │   └── README.md
 │
-├── logs/                        # Sample CSV logs
+├── logs/                        # Sample json logs
 │
 ├── docs/                        # Documentation and schematics
 │
