@@ -13,11 +13,6 @@ This extension to the PM2.5 controlled fan system adds real-time air quality vis
 | SCL         | GPIO22 (SCL)     | I2C clock line                           |
 | SDA         | GPIO21 (SDA)     | I2C data line                            |
 
-### Enhanced Sensor Integration
-- PMS7003 UART RX → Arduino TX (D1)
-- RTC SDA → GPIO21
-- RTC SCL → GPIO22
-
 ## Code Explanation
 
 ### Display Initialization
