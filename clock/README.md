@@ -8,7 +8,7 @@ This module adds precise timestamp functionality to the air quality monitoring s
 ### RTC Connections
 | Module Pin | Connection       | Details                                  |
 |------------|------------------|------------------------------------------|
-| VCC        | 3.3V/5V          | Power supply (3.3V recommended)          |
+| VCC        | 3.3V/5V          | Power supply (5V recommended)          |
 | GND        | GND              | Common ground                            |
 | SDA        | GPIO21 (SDA)     | I2C data line                            |
 | SCL        | GPIO22 (SCL)     | I2C clock line                           |
