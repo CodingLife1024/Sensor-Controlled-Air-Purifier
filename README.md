@@ -1,4 +1,4 @@
-# Smart Air Purifier
+# Sensor-controlled Smart Air Purifier
 
 A smart air purifier system designed to monitor air quality using a PMS7003 particulate matter sensor and dynamically adjust fan speed based on PM2.5 and PM10 concentrations. The system uses a Seeed Xiao ESP32S3 microcontroller to collect and store data, reduce noise pollution, and sync with a Firebase Realtime Database. It is designed to integrate with an actual air purifier unit, although currently the sensing and filtering systems are separate.
 
