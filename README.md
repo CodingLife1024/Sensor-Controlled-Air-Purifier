@@ -96,6 +96,10 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 │   ├── display.ino
 │   └── README.md
 │
+├── clock/                       # Real Time Clock
+│   ├── clock.ino
+│   └── README.md
+│
 ├── storage/                     # SD card logging utilities
 │   ├── storage.ino
 │   └── README.md
