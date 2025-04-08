@@ -12,7 +12,6 @@ This module adds precise timestamp functionality to the air quality monitoring s
 | GND        | GND              | Common ground                            |
 | SDA        | GPIO21 (SDA)     | I2C data line                            |
 | SCL        | GPIO22 (SCL)     | I2C clock line                           |
-| SQW        | Not Connected    | Optional interrupt output                |
 
 ## Code Explanation
 
