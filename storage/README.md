@@ -12,7 +12,7 @@ This module adds persistent data storage capabilities to the air quality system 
 | SCK         | GPIO 36          | SPI clock                                |
 | MOSI        | GPIO 35          | Master Out Slave In                      |
 | MISO        | GPIO 37          | Master In Slave Out                      |
-| VCC         | 3.3V/5V          | Match card voltage requirements          |
+| 3V3         | 3.3V             | Match card voltage requirements          |
 | GND         | GND              | Common ground                            |
 
 ## Code Explanation
