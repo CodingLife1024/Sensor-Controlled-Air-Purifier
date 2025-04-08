@@ -10,8 +10,8 @@ This extension to the PM2.5 controlled fan system adds real-time air quality vis
 |-------------|------------------|------------------------------------------|
 | VCC         | 3.3V/5V          | Power supply (check display specs)       |
 | GND         | GND              | Common ground                            |
-| SCL         | GPIO22 (SCL)     | I2C clock line                           |
-| SDA         | GPIO21 (SDA)     | I2C data line                            |
+| SCL         | GPIO5 (SCL)      | I2C clock line                           |
+| SDA         | GPIO6 (SDA)      | I2C data line                            |
 
 ## Code Explanation
 
