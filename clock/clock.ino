@@ -1,5 +1,10 @@
 /*********************************************************************
-This code
+This code controls the real-time clock (RTC) using the DS3231 module.
+It reads the current date and time, formats it, and prints it to the
+serial monitor. The RTC is initialized in the setup function, and
+the current time is fetched in the loop function. The time is
+formatted as YYYY|MM|DD::HH:MM:SS.
+The code uses the RTClib library to interface with the RTC.
 **********************************************************************/
 
 #include <Wire.h>
