@@ -129,7 +129,7 @@ void setup()
   delay(1000);
 
   // AC Dimmer Setup
-  Serial.println("Setup: Initializing AC Dimmer...");
+  // Serial.println("Setup: Initializing AC Dimmer...");
   // acd.begin(NORMAL_MODE, ON);
   // Serial.println("AC Dimmer initialized.");
 
@@ -176,12 +176,12 @@ void loop()
 
   // Control fan speed based on PM2.5 levels
   Serial.println("Controlling fan speed...");
-  acdimmer(pm25);
+  speedControl(pm25);
 
   delay(5000); // Wait 2 seconds before the next loop
 }
 
-void acdimmer(int pm25)
+void speedControl(int pm25)
 {
   Serial.print("Adjusting fan speed based on PM2.5: ");
   Serial.println(pm25);
