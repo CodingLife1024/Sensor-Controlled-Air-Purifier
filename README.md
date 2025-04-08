@@ -9,6 +9,7 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 - **Noise reduction** by adapting fan speed intelligently
 - **Local data logging** on SD card with timestamps
 - **Cloud sync** with Firebase Realtime Database
+- **OLED Display** for on-device visualization of air quality and fan speed
 - **Compact and efficient** microcontroller-based setup (Xiao ESP32S3)
 - Designed to be integrated into **real air purifier hardware**
 
@@ -20,6 +21,7 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 | Seeed Xiao ESP32S3     | Microcontroller for data collection and control       |
 | Fan (PWM Controlled)   | Adjusts speed according to air quality                |
 | MicroSD Card + Module  | Local storage for logs                                |
+| OLED Display (SSD1306) | Displays PM readings and fan speed in real time       |
 | Power Supply           | USB / Battery-powered depending on deployment / AC Power Source         |
 | Physical Air Purifier  | (Optional) Filter and fan system (currently separate) |
 
@@ -43,7 +45,7 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 
 - Readings are saved as CSV records on the SD card:
   ```
-  timestamp,PM1.0,PM2.5,PM10,fan_speed
+  Time,PM10,PM2.5,Fan
   ```
 
 ### Cloud Sync
@@ -51,21 +53,27 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 - Readings are also uploaded to a **Firebase Realtime Database** in near real-time when Wi-Fi is available.
 - Database fields:
   - `timestamp`
-  - `pm1`
-  - `pm2_5`
+  - `pm25`
   - `pm10`
-  - `fan_speed`
+  - `fanSpeed`
+
+### On-Device Display
+
+- An **OLED display (SSD1306)** is used to show:
+  - Current PM2.5 and PM10 values
+  - Fan speed as a percentage
+  - Device status (e.g., Wi-Fi sync, SD card logging)
 
 ## Firebase Structure
 
 ```json
 {
-  "readings": {
-    "2025-04-07T13:45:00": {
-      "pm1": 12,
-      "pm2_5": 24,
-      "pm10": 30,
-      "fan_speed": 80
+  "data": {
+    "2025|3|5::19:13:55": {
+      "pm10": 25,
+      "pm25": 49,
+      "fanSpeed": 80,
+      "timestamp":"2025|3|5::19:13:55",
     },
     ...
   }
@@ -76,14 +84,33 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 
 ```
 /smart-air-purifier/
-├── src/                    # Main microcontroller code
-│   ├── sensors/            # Sensor interfacing code
-│   ├── control/            # Fan speed and PWM control
-│   ├── storage/            # SD card logging utilities
-│   └── firebase/           # Firebase client interface
-├── logs/                   # Sample CSV logs
-├── docs/                   # Documentation and schematics
-└── README.md               # This file
+├── sensors/                     # Sensor interfacing
+│   ├── sensor.ino
+│   └── README.md
+│
+├── control/                     # Fan speed and PWM control
+│   ├── control.ino
+│   └── README.md
+│
+├── display/                     # OLED Screen Display
+│   ├── display.ino
+│   └── README.md
+│
+├── storage/                     # SD card logging utilities
+│   ├── storage.ino
+│   └── README.md
+│
+├── firebase/                    # Firebase client interface
+│   ├── firebase.ino
+│   └── README.md
+│
+├── logs/                        # Sample CSV logs
+│
+├── docs/                        # Documentation and schematics
+│
+├── full_code.ino                # The Complete Code with all components integrated
+│
+└── README.md                    # This file
 ```
 
 ## Setup Instructions
@@ -91,13 +118,12 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 1. **Connect Hardware** as per schematics in `/docs/`.
 2. **Flash Firmware** to ESP32S3 using Arduino IDE or PlatformIO.
 3. **Insert SD Card** (FAT32 formatted).
-4. **Configure Wi-Fi & Firebase** credentials in `src/firebase/config.h`.
+4. **Configure Wi-Fi & Firebase** credentials.
 5. **Power On** the system and monitor logs on serial output.
 
 ## Planned Enhancements
 
 - [ ] Integrate system with physical air purifier chassis and filters
-- [ ] Add OLED display for real-time PM readings
 - [ ] Add buzzer alert system for high PM levels
 - [ ] Implement OTA (Over-the-Air) updates
 - [ ] Develop a dashboard for visualizing air quality trends
