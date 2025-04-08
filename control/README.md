@@ -78,11 +78,7 @@ void speedControl(int pm25) {
 
 ## Installation Requirements
 1. Arduino IDE 1.8.x or newer
-2. Required Libraries:
-   - `Plantower_PMS7003` (sensor communication)
-   - `Adafruit_GFX` & `Adafruit_SSD1306` (display support)
-   - `RTClib` (real-time clock)
-   - `FirebaseESP32` (cloud connectivity)
+2. Required Libraries: None, for this section of the code.
 
 ## Calibration Notes
 1. PM2.5 thresholds based on WHO air quality guidelines
