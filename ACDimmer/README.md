@@ -8,12 +8,8 @@ This module implements phase-angle control for AC fan speed regulation using zer
 ### Critical Components
 | Component         | Connection       | Purpose                                  |
 |-------------------|------------------|------------------------------------------|
-| Zero-Cross Detector | GPIO D2         | 50/60Hz AC waveform detection [4][6]    |
+| Zero-Cross Detector | GPIO D2         | 50/60Hz AC waveform detection         |
 | TRIAC Gate        | GPIO D3          | Power control via phase-cut triggering   |
-| Optocoupler       | Isolated Circuit | Safe signal isolation (MOC3021 typical)  |
-| Snubber Network   | Across TRIAC     | Voltage spike suppression (RC circuit)   |
-
-![Typical Wiring](https://via.placeholder.com/600x300.png?text=Zero+Cross+→+Optocoupler+→+TRIAC+→+Fan)
 
 ## Code Explanation
 
