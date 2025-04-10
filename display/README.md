@@ -96,3 +96,5 @@ Serial.println(dataLine);
 1. Add secondary display page with historical data
 2. Add touch interface for mode switching
 2. Integrate LED status indicators
+
+[OLED Display SSD1306 I2C](https://robu.in/product/0-96-inch-i2c-iic-oled-lcd-module-4pin-with-vcc-gnd-blue/)
