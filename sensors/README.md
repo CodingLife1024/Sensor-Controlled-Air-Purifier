@@ -13,6 +13,8 @@ This module implements PM2.5 and PM10 monitoring using the Plantower PMS7003 las
 | TX         | GPIO44 (RX1)     | Sensor data output [1][3]                |
 | RX         | GPIO43 (TX1)     | Sensor control input (unused in passive) |
 
+![Pin Diagram of PMS Plantower Sensor](sensorpins.jpg)
+
 ## Code Explanation
 
 ### Sensor Initialization
