@@ -31,6 +31,65 @@ void loop() {
 }
 ```
 
+## Speed Control Logic
+
+### Phase-Angle Control Principle
+The system uses **phase-angle dimming** to regulate fan speed by controlling the TRIAC's conduction time within each AC half-cycle:
+
+```
+Half-Cycle Timing Diagram (50Hz AC)
+------------------------------------
+0µs                        10000µs
+│────────────┬───────────────│
+│   DELAY    │  TRIAC CONDUCTS  │
+│            └──▶ Trigger Point
+│
+└── Zero Crossing Detection
+```
+
+1. **Zero-Cross Detection**  
+   The interrupt triggers at each AC waveform's zero-crossing point (0V transition).
+
+2. **Delay Calculation**  
+   `dimmingTime = (10000µs × (100 - dimmingLevel)) / 100`  
+   Example at 50% level:  
+   `(10000µs × 50) / 100 = 5000µs delay`
+
+3. **Power Delivery**  
+   TRIAC conducts **only during the unshaded portion** of the waveform after the delay:
+
+| Dimming Level | TRIAC Off Time | Effective Voltage | Fan Speed |
+|---------------|----------------|-------------------|-----------|
+| 0%            | 100%           | 0V                | Off       |
+| 30%           | 70%            | ~70V              | Low       |
+| 70%           | 30%            | ~170V             | Medium    |
+| 100%          | 0%             | 230V              | Full      |
+
+### Critical Timing Requirements
+- **50Hz AC Period**: 20ms → 10ms/half-cycle
+- **10,000µs** = 10ms half-cycle duration
+- **1% Resolution**: 100µs timing increments
+
+### Why Blocking Code Fails
+1. **delayMicroseconds() Suspends All Operations**  
+   Other code functions (sensor reads, displays) introduce random delays that:
+   - Miss zero-cross interrupts
+   - Create jitter in TRIAC triggering
+   - Cause inconsistent phase cutting
+
+2. **Non-Linear Fan Response**  
+   Induction motors require **minimum voltage thresholds**:
+   - Below 30%: Fan may stall
+   - 30-70%: Non-linear speed response
+   - Above 70%: Diminishing returns
+
+### Hardware Limitations
+- **TRIAC Latching Current**: Requires minimum 50µs gate pulse
+- **Inductive Load Issues**: Fan windings cause voltage spikes requiring snubbers
+- **Zero-Cross Detection Accuracy**: Optocoupler response time adds ±200µs jitter
+
+For reliable operation, this implementation requires hardware timers and interrupt prioritization to maintain µs-accurate triggering despite other system activities.
+
 ## Identified Issues
 
 ### 1. **Blocking Delay Vulnerability**
