@@ -8,10 +8,12 @@ This Arduino-based system dynamically adjusts a 4-wire PWM fan's speed based on 
 ### 4-Wire Fan Connections
 | Wire Color | Purpose          | Connection       | Details                                                                 |
 |------------|------------------|------------------|-------------------------------------------------------------------------|
-| Yellow     | RPM (Tachometer) | Not Connected*   | Outputs square wave (frequency ∝ RPM) for speed monitoring [2][6]      |
-| Green      | PWM Control      | GPIO4 (D3)       | Input for PWM signal (duty cycle controls speed) [3][6]                |
-| Red        | 12V Power        | 12V Supply       | Main power input (ensure current rating matches fan requirements)      |
+| Green     | RPM (Tachometer) | Not Connected*   | Outputs square wave (frequency ∝ RPM) for speed monitoring [2][6]      |
+| Blue      | PWM Control      | GPIO4 (D3)       | Input for PWM signal (duty cycle controls speed) [3][6]                |
+| Yellow        | 12V Power        | 12V Supply       | Main power input (ensure current rating matches fan requirements)      |
 | Black      | Ground           | GND              | Common ground for circuit completes electrical path [1]                |
+
+![Fan Wires](fanWires.jpg)
 
 *RPM monitoring not implemented in current code
 
@@ -101,3 +103,5 @@ void speedControl(int pm25) {
 4. Develop mobile/web interface through Firebase
 
 *Actual wiring may vary based on specific component models*
+
+[DC Fan](https://www.amazon.in/Noctua-NF-P12-redux-1700rpm-4-pin-Cabinet/dp/B07CG2PGY6/ref=sr_1_29?s=computers&sr=1-29)
