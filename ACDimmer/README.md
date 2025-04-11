@@ -1,40 +1,46 @@
 # AC Fan Speed Control Module (TRIAC-based)
 
 ## Overview
-This module implements phase-angle control for AC fan speed regulation using zero-crossing detection and TRIAC triggering. **Currently demonstrates fundamental timing issues** when integrated with larger systems due to blocking delays and interrupt conflicts.
+This module implements **phase-angle control** for AC fan speed regulation using zero-cross detection and TRIAC triggering. It currently exhibits timing instability when run alongside other system components, due to blocking delays and lack of timer-based control.
 
 ## Hardware Setup
 
 ### Critical Components
-| Component         | Connection       | Purpose                                  |
-|-------------------|------------------|------------------------------------------|
-| Zero-Cross Detector | GPIO D2         | 50/60Hz AC waveform detection         |
-| TRIAC Gate        | GPIO D3          | Power control via phase-cut triggering   |
+| Component           | GPIO Pin | Function                                |
+|---------------------|----------|-----------------------------------------|
+| Zero-Cross Detector | GPIO D2  | Detects 0V crossing of 50/60Hz AC wave  |
+| TRIAC Gate          | GPIO D3  | Fires TRIAC to control AC phase angle   |
 
-## Code Explanation
+## Code Overview
 
-### Key Implementation
+### Blocking Delay Method (Basic Implementation)
 
-```
-// Timing Parameters (Problematic Implementation)
+```cpp
 void IRAM_ATTR zeroCrossInterrupt() {
     zeroCrossDetected = true; // Minimal ISR
 }
 
 void loop() {
-    if(zeroCrossDetected) {
-        delayMicroseconds(dimmingTime); // Blocking call
-        digitalWrite(dimmerPin, HIGH);
-        delayMicroseconds(50); // Extended gate pulse
-        digitalWrite(dimmerPin, LOW);
+    if (zeroCrossDetected) {
+        zeroCrossDetected = false;
+        delayMicroseconds(dimmingTime);       // Delay to shift phase angle
+        digitalWrite(dimmerPin, HIGH);        // Trigger TRIAC
+        delayMicroseconds(50);                // Maintain gate pulse
+        digitalWrite(dimmerPin, LOW);         // End trigger
     }
 }
 ```
 
 ## Speed Control Logic
 
-### Phase-Angle Control Principle
-The system uses **phase-angle dimming** to regulate fan speed by controlling the TRIAC's conduction time within each AC half-cycle:
+### Principle
+This system uses **phase-angle dimming**, where the TRIAC is triggered at a controlled delay after each zero-crossing, allowing only part of each AC half-cycle to power the fan.
+
+---
+
+### Timing Diagram (50Hz AC)
+
+
 
 ```
 Half-Cycle Timing Diagram (50Hz AC)
@@ -56,104 +62,81 @@ Half-Cycle Timing Diagram (50Hz AC)
    `(10000µs × 50) / 100 = 5000µs delay`
 
 3. **Power Delivery**  
-   TRIAC conducts **only during the unshaded portion** of the waveform after the delay:
+   | Dimming Level | Approx Voltage | Fan Speed |
+|---------------|----------------|-----------|
+| 0%            | 0V             | Off       |
+| 30%           | ~70V           | Low       |
+| 70%           | ~170V          | Medium    |
+| 100%          | 230V           | Full      |
 
-| Dimming Level | TRIAC Off Time | Effective Voltage | Fan Speed |
-|---------------|----------------|-------------------|-----------|
-| 0%            | 100%           | 0V                | Off       |
-| 30%           | 70%            | ~70V              | Low       |
-| 70%           | 30%            | ~170V             | Medium    |
-| 100%          | 0%             | 230V              | Full      |
+⚠️ Induction fans may stall below 30%, and show **non-linear response** between 30–70%.
 
-### Critical Timing Requirements
-- **50Hz AC Period**: 20ms → 10ms/half-cycle
-- **10,000µs** = 10ms half-cycle duration
-- **1% Resolution**: 100µs timing increments
+---
 
-### Why Blocking Code Fails
-1. **delayMicroseconds() Suspends All Operations**  
-   Other code functions (sensor reads, displays) introduce random delays that:
-   - Miss zero-cross interrupts
-   - Create jitter in TRIAC triggering
-   - Cause inconsistent phase cutting
+## Issues in Current Implementation
 
-2. **Non-Linear Fan Response**  
-   Induction motors require **minimum voltage thresholds**:
-   - Below 30%: Fan may stall
-   - 30-70%: Non-linear speed response
-   - Above 70%: Diminishing returns
+### 1. Blocking Delays
+- `delayMicroseconds()` halts **all operations**, including interrupt handling.
+- Delays longer than 10ms (one half-cycle at 50Hz) may **miss zero-cross events**.
 
-### Hardware Limitations
-- **TRIAC Latching Current**: Requires minimum 50µs gate pulse
-- **Inductive Load Issues**: Fan windings cause voltage spikes requiring snubbers
-- **Zero-Cross Detection Accuracy**: Optocoupler response time adds ±200µs jitter
+### 2. Interrupt Starvation
+- No queuing or debouncing of zero-cross events.
+- Under CPU load, critical TRIAC trigger timing may be skipped.
 
-For reliable operation, this implementation requires hardware timers and interrupt prioritization to maintain µs-accurate triggering despite other system activities.
+### 3. Timing Jitter
+- Software delay jitter: ±5–10µs.
+- Optocoupler-based detectors introduce additional ±100–200µs jitter.
 
-## Identified Issues
+### 4. Weak State Handling
+- Global flag `zeroCrossDetected` is **vulnerable to race conditions**.
+- Assumes constant 50Hz frequency; no adaptive timing compensation.
 
-### 1. **Blocking Delay Vulnerability**
-- `delayMicroseconds()` halts all processing
-- Misses subsequent zero-cross events
-- Fails with >10ms delays (50Hz half-cycle=10ms)
-
-### 2. **Interrupt Starvation**
-
-- No buffering of zero-cross events
-- Rapid interrupts cause missed triggers
-- Lacks edge debouncing
-
-### 3. **Timing Inaccuracy**
-
-- Software delays have ±5µs jitter
-- No hardware timer integration
-- Calculation doesn't account for ISR latency
-
-### 4. **State Management**
-
-- Global flag (`zeroCrossDetected`) prone to race conditions
-- No error recovery mechanisms
-- Fixed 50Hz assumption
+---
 
 ## Safety Considerations
 
-**High Voltage Warning**
-- Use optoisolated zero-cross detection
-- Implement galvanic isolation
-- Include fuse and thermal protection
-- Enclose in UL-rated housing
-- Follow local electrical codes
+⚠️ **High Voltage Handling**
+- Use **optoisolated zero-cross detectors**.
+- Ensure **galvanic isolation** between AC and logic circuits.
+- Add **snubber networks** to protect TRIAC from inductive loads.
+- Use **UL-rated fire-retardant enclosures** for AC portions.
+- Follow **local electrical safety regulations**.
+- Add **fuses and thermal cutoffs** to limit damage in fault conditions.
 
-## Improved Approach Recommendations
+---
 
-### Hardware Modifications
-- Use dedicated phase-control IC (TCA785)
-- Add hardware debouncing (RC filter)
-- Implement hardware PWM timer
+## Recommended Enhancements
 
-### Code Enhancements
+### Hardware
+- Replace software delay with **hardware PWM timer**.
+- Add **RC filter** on zero-cross signal to reduce bounce.
+- Consider dedicated phase-angle control ICs (e.g., **TCA785**, or **MOC3021 + BT136**).
 
-```
-// Suggested Timer ISR
+---
+
+## Improved Code (Using Hardware Timer)
+
+```cpp
 hw_timer_t *timer = NULL;
+
 void IRAM_ATTR onTimer(){
     digitalWrite(dimmerPin, HIGH);
-    delayMicroseconds(50);
+    delayMicroseconds(50); // Gate pulse duration
     digitalWrite(dimmerPin, LOW);
 }
 
-void zeroCrossInterrupt() {
-    timerAlarmWrite(timer, dimmingTime, false);
-    timerRestart(timer);
+void IRAM_ATTR zeroCrossInterrupt() {
+    timerAlarmWrite(timer, dimmingTime, false); // µs-level accuracy
+    timerRestart(timer);  // Non-blocking trigger delay
 }
 ```
 
 ## Diagnostic Features to Add
-- Phase-cut timing validation
-- Load current monitoring
-- TRIAC temperature sensing
-- Misfire detection counters
-- Automatic retry mechanism
+- Phase delay measurement (debug timing accuracy)
+- Fan current sensor to detect stalls or overload
+- TRIAC temperature monitoring
+- Misfire counters and automatic retry mechanisms
+- Real-time sync verification with zero-cross signal
 
 ## Performance Metrics
 | Parameter          | Current Code | Recommended Target |
