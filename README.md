@@ -86,10 +86,16 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 /smart-air-purifier/
 ├── sensors/                     # Sensor interfacing
 │   ├── sensor.ino
+│   ├── sensorpins.jpg
 │   └── README.md
 │
 ├── control/                     # Fan speed and PWM control
 │   ├── control.ino
+│   ├── fanwires.jpg
+│   └── README.md
+│
+├── ACDimmer/                    # Fan speed with AC fan
+│   ├── acdimmer.ino
 │   └── README.md
 │
 ├── display/                     # OLED Screen Display
@@ -109,8 +115,12 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 │   └── README.md
 │
 ├── logs/                        # Sample json logs
+│   └── sample_data.json
 │
 ├── docs/                        # Documentation and schematics
+│   ├── schematics.png
+│   ├── schematics.jpg
+│   └── README.md
 │
 ├── full_code.ino                # The Complete Code with all components integrated
 │
