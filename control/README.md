@@ -26,17 +26,16 @@ This Arduino-based system dynamically adjusts a 4-wire PWM fan's speed based on 
 
 ### Key Components
 
-```
+```cpp
 // PWM Configuration
 const int pwmPin = 4; // GPIO4 (D3) for PWM output
 int fanSpeed = 10; // Default speed (0-100%)
 int fanSpeedAnalog = map(fanSpeed, 0, 100, 0, 255); // Convert to 8-bit PWM
 ```
 
-
 ### Speed Control Logic
 
-```
+```cpp
 void speedControl(int pm25) {
     Serial.print("Adjusting fan speed based on PM2.5: ");
     Serial.println(pm25);

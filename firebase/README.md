@@ -27,7 +27,7 @@ This module adds cloud connectivity to the air quality monitoring system using F
 
 ### WiFi Initialization
 
-```
+```cpp
 // WiFi credentials
 const char* ssid = <"your-SSID">; // Replace with your network SSID
 const char* password = <"your-PASSWORD">; // Replace with your network password
@@ -53,7 +53,7 @@ void setup()
 
 ### Firebase Configuration
 
-```
+```cpp
 // Firebase credentials
 #define FIREBASE_HOST <"your-project-id.firebaseio.com">
 #define FIREBASE_AUTH <"your-database-secret">
@@ -72,7 +72,7 @@ void setup(){
 
 ### JSON Data Transmission
 
-```
+```cpp
 // Function to send JSON data
 void sendData(String dateTime, int pm25, int pm10, int fanSpeed) {
     unsigned long timestamp = millis();  // Unique timestamp

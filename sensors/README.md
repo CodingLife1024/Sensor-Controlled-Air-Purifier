@@ -19,7 +19,7 @@ This module implements PM2.5 and PM10 monitoring using the Plantower PMS7003 las
 
 ### Sensor Initialization
 
-```
+```cpp
 // Sensor Variables
 int pm25 = 0;
 int pm10 = 0;
@@ -43,7 +43,7 @@ void setup(){
 
 ### Data Acquisition Loop
 
-```
+```cpp
 void pmsRead(){
     Serial.println("PMS7003: Waiting for new data...");
     for (int i = 0; i < 300; i++) {
@@ -58,7 +58,6 @@ void pmsRead(){
     Serial.println("PMS7003: Warning - No new data received!");
 }
 ```
-
 
 ## Installation Requirements
 1. **Required Libraries:**

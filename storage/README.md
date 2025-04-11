@@ -21,7 +21,7 @@ This module adds persistent data storage capabilities to the air quality system 
 
 **Card Initialization & Diagnostics**
 
-```
+```cpp
 #define CS_PIN D0  // CS Pin of the SD Card connects to this in the XIAO ESP32-S3 Board
 
 const char *filename = "/data.csv";
@@ -40,7 +40,7 @@ void setup(){
 
 **Optimized Read/Write Test**
 
-```
+```cpp
 // Function to test read/write performance using smaller chunks
 void performReadWriteTest() {
     const size_t chunkSize = 512;  // Use smaller chunk size
@@ -85,7 +85,7 @@ void performReadWriteTest() {
 
 **CSV Data Handling**
 
-```
+```cpp
 // Function to write a line to the file
 void writeToFile(const char *filename, const char *line) {
     Serial.printf("Writing to file: %s\n", filename);
@@ -117,7 +117,7 @@ void appendToFile(const char *filename, const char *line) {
 
 **File Management**
 
-```
+```cpp
 void clearSDCard() {
     Serial.println("Clearing SD card...");
     File root = SD.open("/");

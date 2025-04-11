@@ -17,7 +17,7 @@ This extension to the PM2.5 controlled fan system adds real-time air quality vis
 
 ### Display Initialization
 
-```
+```cpp
 #define SCREEN_WIDTH 128 // OLED dimensions
 #define SCREEN_HEIGHT 32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
@@ -33,7 +33,7 @@ void setup() {
 
 ### Real-Time Display Function
 
-```
+```cpp
 void oled(String dateTime, int pm25, int pm10, int fanSpeed){
     display.clearDisplay();
     display.setTextSize(1);
@@ -62,10 +62,9 @@ void oled(String dateTime, int pm25, int pm10, int fanSpeed){
 
 ### Data Logging Implementation
 
-```
+```cpp
 // CSV-formatted serial output
-String dataLine = String(datetime) + "," + String(pm10) + ","
-+ String(pm25) + "," + String(fanSpeed);
+String dataLine = String(datetime) + "," + String(pm10) + "," + String(pm25) + "," + String(fanSpeed);
 Serial.println(dataLine);
 ```
 

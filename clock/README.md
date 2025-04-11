@@ -17,7 +17,7 @@ This module adds precise timestamp functionality to the air quality monitoring s
 
 ### RTC Initialization
 
-```
+```cpp
 RTC_DS3231 rtc; // Create RTC object
 String datetime = "";
 
@@ -34,7 +34,7 @@ void setup() {
 
 ### Time Fetching Function
 
-```
+```cpp
 void timeStamp(){
     // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
     DateTime now = rtc.now(); // Fetch the current time from the RTC
@@ -46,7 +46,6 @@ void timeStamp(){
     Serial.println(datetime);
 }
 ```
-
 
 ## Installation Requirements
 1. **Required Libraries:**
