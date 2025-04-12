@@ -10,8 +10,8 @@ This Arduino-based system dynamically adjusts a 4-wire PWM fan's speed based on 
 |------------|------------------|------------------|-------------------------------------------------------------------------|
 | Green     | RPM (Tachometer) | Not Connected*   | Outputs square wave (frequency ∝ RPM) for speed monitoring [2][6]      |
 | Blue      | PWM Control      | GPIO4 (D3)       | Input for PWM signal (duty cycle controls speed) [3][6]                |
-| Yellow        | 12V Power        | 12V Supply       | Main power input (ensure current rating matches fan requirements)      |
-| Black      | Ground           | GND              | Common ground for circuit completes electrical path [1]                |
+| Yellow    | 12V Power        | 12V Supply       | Main power input (ensure current rating matches fan requirements)      |
+| Black     | Ground           | GND              | Common ground for circuit completes electrical path [1]                |
 
 ![Fan Wires](fanWires.jpg)
 
