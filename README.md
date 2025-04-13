@@ -146,3 +146,5 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 
 - **Riddhidipta Pal** – Final Year Undergraduate, Computer Science and Engineering, IIT Delhi  
   _This project is supervised by Prof. Shanzad Gani and Prof. Rijurekha Sen._
+
+![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/CodingLife1024/Sensor-Controlled-Air-Purifier&count_bg=%2379C83D&title_bg=%23555555&icon=github.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false)
