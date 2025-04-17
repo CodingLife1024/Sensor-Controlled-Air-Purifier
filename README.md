@@ -144,7 +144,7 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 
 ## 📈 Traffic
 
-[📊 View Full Report](./traffic_report.md)
+[View Full Report](./traffic_report.md)
 
 ![Traffic Graph](./traffic_plot.png)
 
