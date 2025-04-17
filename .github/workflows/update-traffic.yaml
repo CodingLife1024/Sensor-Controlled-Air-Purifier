@@ -72,7 +72,7 @@ jobs:
           df = df.drop_duplicates(subset=["timestamp"])
 
           # Save markdown summary
-          md = "# 📊 Repository Traffic Report\n\n"
+          md = "# Repository Traffic Report\n\n"
           md += f"Updated: **{now} UTC**\n\n"
           md += "| Date | Views | Unique Visitors | Clones | Unique Cloners |\n"
           md += "|------|--------|------------------|--------|-----------------|\n"
@@ -99,5 +99,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add traffic_stats.json traffic_report.md traffic_plot.png
-          git commit -m "📈 Update traffic report and graph [skip ci]" || echo "No changes to commit"
+          git commit -m "Update traffic report and graph [skip ci]" || echo "No changes to commit"
           git push
