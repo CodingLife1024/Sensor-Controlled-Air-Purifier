@@ -1,0 +1,103 @@
+name: Update Traffic Stats
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-traffic:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install requests pandas matplotlib
+
+      - name: Fetch, log, and visualize traffic data
+        env:
+          GITHUB_TOKEN: ${{ secrets.TRAFFIC_UPDATE_TOKEN }}
+          REPO: CodingLife1024/Sensor-Controlled-Air-Purifier
+        run: |
+          import os, json, requests
+          import pandas as pd
+          import matplotlib.pyplot as plt
+          from datetime import datetime
+
+          headers = {
+              "Authorization": f"token {os.environ['GITHUB_TOKEN']}",
+              "Accept": "application/vnd.github.v3+json"
+          }
+
+          repo = os.environ["REPO"]
+          views_url = f"https://api.github.com/repos/{repo}/traffic/views"
+          clones_url = f"https://api.github.com/repos/{repo}/traffic/clones"
+
+          views = requests.get(views_url, headers=headers).json()
+          clones = requests.get(clones_url, headers=headers).json()
+
+          now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+          data = {
+              "timestamp": now,
+              "count": views["count"],
+              "uniques": views["uniques"],
+              "clone_count": clones["count"],
+              "clone_uniques": clones["uniques"]
+          }
+
+          log_file = "traffic_stats.json"
+          if not os.path.exists(log_file):
+              with open(log_file, "w") as f:
+                  f.write("")
+
+          with open(log_file, "a") as f:
+              f.write(json.dumps(data) + "\n")
+
+          # Load and format data
+          records = []
+          with open(log_file) as f:
+              for line in f:
+                  records.append(json.loads(line.strip()))
+
+          df = pd.DataFrame(records)
+          df["timestamp"] = pd.to_datetime(df["timestamp"])
+          df = df.drop_duplicates(subset=["timestamp"])
+
+          # Save markdown summary
+          md = "# 📊 Repository Traffic Report\n\n"
+          md += f"Updated: **{now} UTC**\n\n"
+          md += "| Date | Views | Unique Visitors | Clones | Unique Cloners |\n"
+          md += "|------|--------|------------------|--------|-----------------|\n"
+          for _, row in df.iterrows():
+              md += f"| {row['timestamp'].date()} | {row['count']} | {row['uniques']} | {row['clone_count']} | {row['clone_uniques']} |\n"
+
+          with open("traffic_report.md", "w") as f:
+              f.write(md)
+
+          # Plot traffic
+          plt.figure(figsize=(10, 5))
+          plt.plot(df["timestamp"], df["count"], marker="o", label="Views")
+          plt.plot(df["timestamp"], df["clone_count"], marker="s", label="Clones")
+          plt.title("GitHub Repo Traffic Over Time")
+          plt.xlabel("Date")
+          plt.ylabel("Count")
+          plt.grid(True)
+          plt.legend()
+          plt.tight_layout()
+          plt.savefig("traffic_plot.png")
+
+      - name: Commit and push updates
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add traffic_stats.json traffic_report.md traffic_plot.png
+          git commit -m "📈 Update traffic report and graph [skip ci]" || echo "No changes to commit"
+          git push
