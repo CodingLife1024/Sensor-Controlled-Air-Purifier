@@ -142,6 +142,12 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 - [ ] Implement OTA (Over-the-Air) updates
 - [ ] Develop a dashboard for visualizing air quality trends
 
+## 📈 Traffic
+
+[📊 View Full Report](./traffic_report.md)
+
+![Traffic Graph](./traffic_plot.png)
+
 ## Authors
 
 - **Riddhidipta Pal** – Final Year Undergraduate, Computer Science and Engineering, IIT Delhi  
