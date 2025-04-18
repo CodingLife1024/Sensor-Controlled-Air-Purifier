@@ -144,8 +144,8 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 
 ### Fan Control & Airflow Optimization
 - [ ] Implement a more granular PID-based fan speed control for smoother operation and better response to pollution spikes.
+- [ ] Implement a more detailed fan speed control based on historical sensor data rather than instanteneous measurements.
 - [ ] Introduce a "quiet night mode" with reduced fan speed and dimmed display during sleep hours.
-- [ ] Use directional airflow control with servos or dampers to focus purified air delivery.
 
 ### Connectivity & Data Logging
 - [ ] Add offline queuing for Firebase updates when the internet is down and auto-sync when reconnected.
