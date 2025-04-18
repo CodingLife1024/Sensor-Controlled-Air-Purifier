@@ -137,10 +137,37 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 
 ## Planned Enhancements
 
-- [ ] Integrate system with physical air purifier chassis and filters
+### Hardware & Sensor Improvements
+- [ ] Add temperature and humidity sensors (e.g., DHT22 or BME280) to correlate air quality with environmental conditions.
+- [ ] Include a gas sensor (like MQ135 or CCS811) for detecting CO₂, VOCs, and other harmful gases.
+- [ ] Battery backup system with charging support for uninterrupted monitoring during power cuts.
+
+### Fan Control & Airflow Optimization
+- [ ] Implement a more granular PID-based fan speed control for smoother operation and better response to pollution spikes.
+- [ ] Introduce a "quiet night mode" with reduced fan speed and dimmed display during sleep hours.
+- [ ] Use directional airflow control with servos or dampers to focus purified air delivery.
+
+### Connectivity & Data Logging
+- [ ] Add offline queuing for Firebase updates when the internet is down and auto-sync when reconnected.
+- [ ] Add MQTT support for integration with smart home systems.
+
+### Dashboard & UX Enhancements
+- [ ] Add historical trend visualization with time-based filtering (e.g., daily, weekly, monthly).
+- [ ] Provide health recommendations based on AQI (e.g., "Limit outdoor activity" when AQI > 150).
+- [ ] Support push notifications or email alerts via MQTT or Firebase Cloud Messaging when air quality degrades.
+
+### Mobile Integration & App Features
+- [ ] Build a companion mobile app using Flutter or React Native for live monitoring and remote control.
+
+### Analytics & Intelligence
+- [ ] Correlate external weather API data (e.g., wind speed, rainfall) with indoor air quality for pattern analysis.
+
+### Alerts
 - [ ] Add buzzer alert system for high PM levels
-- [ ] Implement OTA (Over-the-Air) updates
+
+### Visualization
 - [ ] Develop a dashboard for visualizing air quality trends
+
 
 ## 📈 Traffic
 
