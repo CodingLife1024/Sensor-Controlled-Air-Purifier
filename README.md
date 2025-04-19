@@ -121,6 +121,7 @@ A smart air purifier system designed to monitor air quality using a PMS7003 part
 │   ├── schematics.png
 │   ├── schematics.jpg
 │   └── README.md
+│
 ├── Arduino IDE/                 # Setup Instructions and Libraries Needed
 │   ├── libraries/
 │   └── README.md
