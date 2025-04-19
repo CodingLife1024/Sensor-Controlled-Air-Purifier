@@ -59,13 +59,13 @@ The following libraries are required for this project:
 
 If any libraries (like `Plantower_PMS7003` or `FirebaseESP32`) are not available via Library Manager:
 
-- Copy the corresponding folders from your `libraries` directory (e.g., `Plantower_PMS7003-master`, `Firebase_ESP32_Client`) into your Arduino `libraries` directory (usually `~/Arduino/libraries/`).
+- Copy the corresponding folders from your `libraries` directory (e.g., `Plantower_PMS7003-master`, `Firebase_ESP32_Client`) into your Arduino `libraries` directory (usually `~Documents/Arduino/libraries/`).
 
 ---
 
 ## 6. Select the Correct Board and Port
 
-- Go to **Tools > Board** and select your ESP32 board (e.g., "DOIT ESP32 DEVKIT V1").
+- Go to **Tools > Board** and select your ESP32 board (e.g., "XIAO_ESP32S3").
 - Go to **Tools > Port** and select the port for your ESP32.
 
 ---
